@@ -18,18 +18,24 @@
             <UButton @click="showBlog">Show</UButton>
         </div>
         <br>
-        <div class="grid justify-center" v-if="blogs.length>0">
-        <UButtonGroup size="xl" orientation="horizontal">
-            <UTooltip text="Like Blog" ><UButton icon="i-heroicons-hand-thumb-up" color="gray" @click="interact(likeBlog) "></UButton></UTooltip>
-            <UTooltip text="Dislike Blog" ><UButton icon="i-heroicons-hand-thumb-down" color="gray" @click="interact(unlikeBlog)"></UButton></UTooltip>
-            <UTooltip text="Report Blog" ><UButton icon="i-heroicons-flag" color="gray" @click="interact(reportBlog)"></UButton></UTooltip>
-            
-            
-            
-            
-        </UButtonGroup>
-        <br>
-    </div>
+        <div class="grid justify-center" v-if="blogs.length > 0">
+            <UButtonGroup size="xl" orientation="horizontal">
+                <UTooltip text="Like Blog">
+                    <UButton icon="i-heroicons-hand-thumb-up" color="gray" @click="interact('likeBlog')"></UButton>
+                </UTooltip>
+                <UTooltip text="Dislike Blog">
+                    <UButton icon="i-heroicons-hand-thumb-down" color="gray" @click="interact('unlikeBlog')"></UButton>
+                </UTooltip>
+                <UTooltip text="Report Blog">
+                    <UButton icon="i-heroicons-flag" color="gray" @click="interact('reportBlog')"></UButton>
+                </UTooltip>
+
+
+
+
+            </UButtonGroup>
+            <br>
+        </div>
 
 
         <UCard v-if="blogs.length > 0">
@@ -60,8 +66,11 @@
 const address = ref('')
 const id = ref('')
 const blogs = ref([]);
+const error=ref('');
+const toast = useToast()
 
-import { createThirdwebClient, getContract, prepareContractCall, resolveMethod, sendTransaction, toWei } from "thirdweb";
+
+import { createThirdwebClient, getContract, prepareContractCall, resolveMethod, sendAndConfirmTransaction, sendTransaction, toWei } from "thirdweb";
 import { sepolia } from "thirdweb/chains";
 import { createWallet, injectedProvider } from "thirdweb/wallets";
 import { getAllBlogs } from "/thirdweb/11155111/0xCd8eDcB464D82c50ACCA644cB572098A6171ccfB";
@@ -114,14 +123,28 @@ async function interact(methodName) {
         });
         console.log(transaction);
         // sign & send a transaction with the account -> returns the transaction hash
-        const { transactionHash } = await sendTransaction({
-            // assuming you have called `prepareTransaction()` or `prepareContractCall()` before which returns the prepared transaction to send
+        // const { transactionHash } = await sendTransaction({
+        //     // assuming you have called `prepareTransaction()` or `prepareContractCall()` before which returns the prepared transaction to send
+        //     transaction,
+        //     // Pass the account to sign the transaction with
+        //     account,
+        // });
+        // console.log(transactionHash);
+        try{
+        const receipt = await sendAndConfirmTransaction({
             transaction,
-            // Pass the account to sign the transaction with
             account,
         });
-        console.log(transactionHash);
+        console.log('reciept',receipt)
     }
+    catch(e){
+        console.log('error ',e)
+        error.value='Creator cant like, dislike or report post'
+        toast.add({ title: error.value})
+        
+
+    }
+}
     else {
         console.log('Please install MetaMask');
     }
