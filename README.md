@@ -1,3 +1,7 @@
+
+blogger.sol file inside the contracts folder can be run on remix ide or else on sepolia testnet explorer(this is where i have deployed the code)
+contract address: 0xCd8eDcB464D82c50ACCA644cB572098A6171ccfB
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
