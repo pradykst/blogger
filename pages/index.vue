@@ -1,14 +1,5 @@
 <template>
     <div style="font-size: 45px; text-align: center; color: mediumspringgreen;">Blog</div>
-    <!-- <div v-for="blog in blogs" :key="blog.id">
-      {{ blog.title }}
-      {{ blog.content }}
-    </div>
-    <div>
-        PROFILE
-        {{ profile.displayName }}
-        {{ profile.bio}}
-    </div> -->
     <br>
     <div class="grid justify-center">
         <UHorizontalNavigation :links="links" class="border-b border-black-200 dark:border-gray-600" />
@@ -32,6 +23,10 @@
         <UTable :rows="people" />
 
     </div>
+    <br>
+    <div class="grid justify-center" style="opacity: 45%; font-size: 10px;">
+        © Pradyumna Kaushal
+    </div>
 
 
 
@@ -44,15 +39,15 @@ const route = useRoute()
 const links = [{
     label: 'Profile',
     icon: 'i-heroicons-user',
-    to: '/createprofile'
+    to: '/profile'
 }, {
     label: 'Blogs',
     icon: 'i-heroicons-book-open',
     to: '/blogs'
 }, {
-    label: 'Create Blog',
-    icon: 'i-heroicons-pencil-square',
-    to: '/createblog'
+    label: 'Like Blog',
+    icon: 'i-heroicons-hand-thumb-up',
+    to: '/likeblog'
 }, {
     label: 'Settings',
     icon: 'i-heroicons-cog-6-tooth',
@@ -110,47 +105,6 @@ const people = [{
     blogs: 51,
     Likes: 102346
 }]
-
-import { createThirdwebClient, getContract } from "thirdweb";
-import { sepolia } from "thirdweb/chains";
-import { getAllBlogs, getProfile } from "/thirdweb/11155111/0xCd8eDcB464D82c50ACCA644cB572098A6171ccfB";
-
-
-const runtimeConfig = useRuntimeConfig()
-const blogs = ref([]);
-const profile = ref({});
-
-const client = createThirdwebClient({
-    clientId: runtimeConfig.public.thirdwebClientId,
-});
-
-
-
-
-const contract = await getContract({
-    client,
-    chain: sepolia,
-    address: runtimeConfig.public.contractAddress,
-});
-
-const result = await getAllBlogs(
-    {
-        owner: '0xdE0Cefe3eb6854a81f1D967b41a5d28319FCD594',
-        contract: contract,
-    }
-)
-console.log(result)
-blogs.value = result;
-
-profile.value = await getProfile(
-    {
-        user: '0xdE0Cefe3eb6854a81f1D967b41a5d28319FCD594',
-        contract: contract,
-    }
-)
-
-
-
 
 
 </script>
