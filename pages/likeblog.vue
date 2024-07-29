@@ -73,7 +73,7 @@ const toast = useToast()
 import { createThirdwebClient, getContract, prepareContractCall, resolveMethod, sendAndConfirmTransaction, sendTransaction, toWei } from "thirdweb";
 import { sepolia } from "thirdweb/chains";
 import { createWallet, injectedProvider } from "thirdweb/wallets";
-import { getAllBlogs } from "/thirdweb/11155111/0xCd8eDcB464D82c50ACCA644cB572098A6171ccfB";
+import { getAllBlogs } from "@/thirdweb/11155111/0xcd8edcb464d82c50acca644cb572098a6171ccfb";
 
 const runtimeConfig = useRuntimeConfig()
 
